@@ -11,7 +11,7 @@ Websockets are used for Chat and Notification \
 For Backend operation Django Rest Framework is used along with django-channels for async tasks \
 For Frontend ReactJS is used \
 PostgreSQl is used as Database (might migrate to mongoDB or any NoSql) \
-Redis is used as channel Layer (In-memory database) \
+Redis is used as channel Layer (In-memory database) 
 
 ### Features to-do List
 
@@ -28,15 +28,15 @@ Redis is used as channel Layer (In-memory database) \
 ## Running Web-app
 
 Clone Repo \
-Go into backend folder(to start backend server) \
+Go into backend folder(to start backend server) 
 ```
 cd backend
 ```
-Create virtual environment \
+Create virtual environment 
 ```
 virtualenv env
 ```
-Activate virtual environment(search up for specific OS) \
+Activate virtual environment(search up for specific OS)
 ```
 activate bin/Scripts/activate
 ```
