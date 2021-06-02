@@ -5,7 +5,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
         print(self.scope["user"].user_name)
-        # await self.channel_layer.group_add("Python",self.channel_name)
         await self.accept()
     
 
@@ -29,6 +28,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 {
                     "type": "chat.message",
                     "message": content["message"],
+                    "username": self.scope["user"].user_name,
+                    "server": content["server"],
                 }
             )
         
@@ -38,7 +39,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         print(event['message'])
         await self.send_json(
             {
-                # "username": event["username"],
+                "username": event["username"],
+                "server":event["server"],
                 "message": event["message"],
             },
         )

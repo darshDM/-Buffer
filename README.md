@@ -38,7 +38,7 @@ virtualenv env
 ```
 Activate virtual environment(search up for specific OS)
 ```
-activate bin/Scripts/activate
+source bin/Scripts/activate
 ```
 Install Dependencies
 ```

@@ -11,6 +11,7 @@ function MainBody() {
   
   const [server,setServer] = useState(undefined)
   const [thread,setThread] = useState(undefined) 
+  const [messegeObject,setMessegeObject] = useState(undefined)
   const handleServerChange = (serv) =>{
     setServer(serv)
     setThread(undefined)
@@ -34,14 +35,15 @@ function MainBody() {
   } 
   
   socket.onmessage=(res)=>{
-    console.log("got it !!!")
-    console.log(JSON.parse(res.data).message)
+    if(JSON.parse(res.data).server == server){
+      setMessegeObject({"username":JSON.parse(res.data).username, "messege":JSON.parse(res.data).message})
+    }
   }
   return (
     <Box display="flex" flexDirection="row" className="App">
       <ServerSideBar handleServerChange = {handleServerChange} />
       <ThreadList selectedServer = {server} handleThreadChange={handleThreadChange} />
-      <Conversation selectedThread = {thread} sendMessage={sendMessage} />
+      <Conversation messegeReceived = {messegeObject} selectedThread = {thread} sendMessage={sendMessage} />
     </Box>
   );
 }

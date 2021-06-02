@@ -11,6 +11,7 @@ class QueryThread(models.Model):
     room = models.ForeignKey(Group,null=False,blank=False,on_delete=models.CASCADE)
     title = models.CharField(max_length=300,null=False)
     code = models.TextField(null=True)
+    query = models.TextField(null=True)
     result = models.TextField(null=True,blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)                                                                                                
