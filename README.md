@@ -6,12 +6,12 @@ and with some set of libraries installed by admin of channel
 
 ### Tech and Tools
 
-HTTP is used to perform initial fetch of data and Authentication/
-Websockets are used for Chat and Notification/
-For Backend operation Django Rest Framework is used along with django-channels for async tasks/
-For Frontend ReactJS is used/
-PostgreSQl is used as Database (might migrate to mongoDB or any NoSql)/
-Redis is used as channel Layer (In-memory database)/
+HTTP is used to perform initial fetch of data and Authentication \
+Websockets are used for Chat and Notification \
+For Backend operation Django Rest Framework is used along with django-channels for async tasks \
+For Frontend ReactJS is used \
+PostgreSQl is used as Database (might migrate to mongoDB or any NoSql) \
+Redis is used as channel Layer (In-memory database) \
 
 ### Features to-do List
 
@@ -27,16 +27,16 @@ Redis is used as channel Layer (In-memory database)/
 
 ## Running Web-app
 
-Clone Repo\
-Go into backend folder(to start backend server)\
+Clone Repo \
+Go into backend folder(to start backend server) \
 ```
 cd backend
 ```
-Create virtual environment\
+Create virtual environment \
 ```
 virtualenv env
 ```
-Activate virtual environment(search up for specific OS)\
+Activate virtual environment(search up for specific OS) \
 ```
 activate bin/Scripts/activate
 ```
@@ -60,7 +60,7 @@ Follow-up steps in readme file from frontend folder to start server for frontend
 
 Note
 > Configure your database in settings.py \
-> create Admin user to view tables on admin page \
+> create Admin user to view tables on admin page 
 
 
 
