@@ -30,21 +30,22 @@ function MainBody() {
     socket.send(JSON.stringify({
       command:"chat_message",
       message:message,
-      server:server,
+      server:server.name,
     }))
   } 
   
   socket.onmessage=(res)=>{
     if(JSON.parse(res.data).server == server){
       setMessegeObject({"username":JSON.parse(res.data).username, "messege":JSON.parse(res.data).message})
+      console.log(res.data);
     }
   }
   return (
-    <Box display="flex" flexDirection="row" className="App">
+    <div className="flex flex-row overflow-hidden bg-gray-900">
       <ServerSideBar handleServerChange = {handleServerChange} />
       <ThreadList selectedServer = {server} handleThreadChange={handleThreadChange} />
       <Conversation messegeReceived = {messegeObject} selectedThread = {thread} sendMessage={sendMessage} />
-    </Box>
+    </div>
   );
 }
 export default MainBody;

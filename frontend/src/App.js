@@ -8,14 +8,14 @@ import MainBody from './components/MainBody'
 import Header from './components/Header'
 import UpdatePassword from './components/UpdatePassword'
 import axiosInstance from './axios'
+import CreateServer from './components/Body/Modals/CreateServer'
 function App() {
   const [logged,setLogged] = useState();
   const handleLogin=(curr_logged)=>{
     setLogged(curr_logged)
-    console.log(curr_logged)
+    // console.log(curr_logged)
   }
-  // useEffect(()=>{
-    console.log("req:    ",localStorage.getItem("access_token"))
+  useEffect(()=>{
     if(localStorage.getItem('access_token') == null){
       window.href = '/login/'
     }
@@ -30,18 +30,22 @@ function App() {
         setLogged(false)
       }
     })
-  // },[])
+  },[])
+    
   return (
+    // <div className="bg-purple-2"> 
     <Router>
-    <Header logged={logged}/>
+    {/* <Header logged={logged}/> */}
     <Switch>
         <Route exact path="/"  render={(props)=>(<MainBody></MainBody>)} />
         <Route path ="/register" component={Register} />
 				<Route path ="/login" render={(props)=>(<Login handleLoginFromApp={handleLogin}></Login>)}/>
 				<Route path ="/logout" render={(props)=>(<Logout handleLoginFromApp={handleLogin}></Logout>)} />
         <Route path ="/update-password" render={(props)=>(<UpdatePassword/>)} />
+        <Route path ="/testing" render={(props)=>(<CreateServer> </CreateServer>)}/>
       </Switch>
     </Router>
+    // </div>
   );
 }
 export default App;

@@ -1,187 +1,64 @@
-import React, { useEffect, useState, Fragment} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
-import { NavLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
-import Button from '@material-ui/core/Button';
-import axiosInstance from "../axios";
-import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import Modal from '@material-ui/core/Modal';
-import TextField from '@material-ui/core/TextField';
-function getModalStyle() {
-    const top = 30;
-    const left = 45;
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
-const useStyles = makeStyles((theme) => ({
-	appBar: {
-		borderBottom: `2px solid ${theme.palette.divider}`,
-	},
-	link: {
-		margin: theme.spacing(1, 1),
-	},
-	toolbarTitle: {
-		flexGrow: 1,
-	},
-	modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-	paper: {
-        position: 'absolute',
-        width: 450,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-}));
+import React, { useEffect, useState, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
-function Header(props) {
-	
-	const [logged, setLogged] = useState(props.logged);
-	//console.log(logged)
-	const [open,setOpen] = useState(false);
-	const [modalStyle] = useState(getModalStyle);
-	const [serverName, setServerName] = useState(undefined);
-	useEffect(()=>{
-		setLogged(props.logged);
-	},[props])
-	const handleChange = (e) => {
-		setServerName(e.target.value.trim())
-	};
-	const createServerButton = () =>{
-		setOpen(true);
-	}
-	const handleClose = () => {
-        setOpen(false);
+export default function Header(props) {
+  const [logged, setLogged] = useState(props.logged);
+  const [toggle, setToggle] = useState(false);
+  useEffect(()=>{
+    setLogged(props.logged);
+    const hideMenu = () => {
+      if(window.innerWidth > 786 && toggle){
+        setToggle(false); 
+      }
+    }
+    window.addEventListener('resize',hideMenu)
+    return ()=>{
+      window.removeEventListener('resize',hideMenu);
     };
-	const handleSubmit = () =>{
-		console.log(serverName)
-		axiosInstance
-			.post(`v1/create-server`, {
-				name: serverName,
-			})
-			.then((res) => {
-				setOpen(false);
-			});
-	}
-	const authLinks = () => {
-		return <Fragment>
-			<Button
-			onClick={createServerButton}
-			color="default"
-			variant="outlined"
-			className={classes.link}
-			>
-			<AddRoundedIcon></AddRoundedIcon>
-		</Button>
-			<Button
-			href="#"
-			color="default"
-			variant="outlined"
-			className={classes.link}
-			component={NavLink}
-			to="/logout"
-			>
-			Logout
-		</Button>
-		</Fragment> 
-		
-	};
-	const guestLinks = () => {
-		return <Fragment>
-		<nav>
-						<Link
-							color="textPrimary"
-							href="#"
-							className={classes.link}
-							component={NavLink}
-							to="/register"
-						>
-					Register
-						</Link>
-		</nav>
-					<Button
-						color="default"
-						variant="outlined"
-						className={classes.link}
-						component={NavLink}
-						to="/login"
-					>
-					Login
-					</Button>
-		</Fragment>	
-	};
-	
-	const classes = useStyles();
-	return (
-		<React.Fragment>
-			<CssBaseline />
-			<AppBar
-				position="static"
-				color="default"
-				elevation={0}
-				className={classes.appBar}
-			>
-				<Toolbar variant="dense" className={classes.toolbar}>
-					<Typography
-						variant="h6"
-						color="inherit"
-						noWrap
-						className={classes.toolbarTitle}>
-						<Link
-							component={NavLink}
-							to="/"
-							underline="none"
-							color="textPrimary">
-							Channels
-						</Link>
-					</Typography>
-					{logged ? authLinks() : guestLinks()}
-				</Toolbar>
-			</AppBar>
-			<Modal
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                open={open}
-                onClose={handleClose}
-            >
-                <div style={modalStyle} className={classes.paper}>
-                    <h2>Create Server</h2>
-                    <TextField
-						variant="filled"
-						color="secondary"
-						margin="normal"
-						required
-						fullWidth
-						id="server-name"
-						label="Server Name"
-						name="server-name"
-						autoComplete="server-name"
-						autoFocus
-						onChange={handleChange}
-					/>
-					<Button
-						type="submit"
-						variant="contained"
-						color="secondary"
-						className={classes.submit}
-						onClick={handleSubmit}
-					>
-						Create
-					</Button>
-                </div>
-            </Modal>
-		</React.Fragment>
-	);
+  },[props])
+  
+  const authLinks=()=>{
+    return <Fragment>
+    <Link className="inline-block bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded py-1 px-3" to="/logout">Logout</Link>
+    </Fragment>
+  }
+  const guestLinks=()=>{
+    return <Fragment>
+    <Link className="inline-block border bg-gray-700 border-gray-800 rounded hover:border-gray-200 text-gray-50 hover:bg-gray-200 hover:text-gray-800 py-1 px-2" to="/register">Register</Link>
+    <Link className="ml-2 inline-block border bg-gray-700 border-gray-800 rounded hover:border-gray-200 text-gray-50 hover:bg-gray-200 hover:text-gray-800 py-1 px-2" to="/login">Login</Link>
+    </Fragment>
+  }
+  const authLinksToggle=()=>{
+    return <div className="flex flex-col text-gray-50 bg-gray-800">
+    <Link className="p-4" to="/logout">logout</Link>
+    
+    </div>
+  }
+  const guestLinksToggle=()=>{
+    return <div className="flex flex-col text-gray-50 bg-gray-800">
+    <Link className="p-4" to="/register">Register</Link>
+    <Link className="p-4" to="/login">Login</Link>
+    </div>
+  }
+  return (
+    <Fragment>
+    <nav className="flex font-sans w-full justify-between items-center text-gray-50 h-14 bg-gray-800 shadow-sm" role="navigation">
+      <div className="flex flex-row">
+      <svg className="w-7 h-7 ml-10 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+      <Link to="/" className="text-xl items-center">Channels</Link>
+      </div>
+      
+      <div className="px-4 cursor-pointer md:hidden">
+      
+        <svg  onClick={()=>setToggle(!toggle)} className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </div>
+      <div className="pr-8 md:block hidden">
+      {logged ? authLinks() : guestLinks()}
+      </div>
+    </nav>
+    {toggle ? (logged ? authLinksToggle() : guestLinksToggle()) : ""}
+    </Fragment>
+  )
 }
-
-export default Header;

@@ -1,61 +1,61 @@
-import React, {useState} from 'react'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import Box from '@material-ui/core/Box'
-import './style/Conversation.css'
+import React, { useState, useEffect } from 'react'
+import axiosInstance from './../../axios';
+// import './style/Conversation.css'
 import Message from './Message'
+import { PaperAirplaneIcon } from '@heroicons/react/outline';
 const messegeList = [];
-export default function Conversation(props){
+export default function Conversation(props) {
     const sendMessage = props.sendMessage
     const messegeReceived = props.messegeReceived
-    const [messageField,setMessageField] = useState(undefined)
-    // if(messegeReceived != undefined){
-    //     messegeList.push({"username":messegeReceived.username,"messege":messegeReceived.messege})
-    // }
-    const handleChange = (e) =>{
+    const selectedThread = props.selectedThread
+    const [messegeListState,setMessegeListState] = useState([])
+    const messegeList = []
+    useEffect(()=>{
+        if(selectedThread != undefined){
+        axiosInstance.get(`v1/get-thread-messages/${props.selectedThread.id}`).then((res) => {
+                for (var i = 0; i < res.data.length; i++) {
+                   messegeList.push({"profilePic":res.data[i].sender.profilePic,"username":res.data[i].sender.username,"messege":res.data[i].message});
+                }
+                setMessegeListState(messegeList);
+            })
+        }
+    },[props.selectedThread])
+    const [messageField, setMessageField] = useState(undefined)
+    if(messegeReceived != undefined){
+        messegeList.push({ "username":messegeReceived.user,"messege":messegeReceived.messege})
+    }
+    const handleChange = (e) => {
         const messageGot = e.target.value.trim()
-        if(messageGot != '' && messageGot != undefined){
+        if (messageGot != '' && messageGot != undefined) {
             setMessageField(messageGot)
         }
-    } 
-    const handleSubmit = (e) =>{
+    }
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if(messageField != '' && messageField != undefined){
+        if (messageField != '' && messageField != undefined) {
             sendMessage(messageField)
         }
         setMessageField("")
         document.querySelector('#message_input').value = "";
     }
-    return <Box display="flex" flexDirection="column" justifyContent="flex-end">
-        <Box id = "messege_history">
+
+    return <div className="main-body">
+        <div className="message-list" id="messege_history">
+            {/* wef */}
             {
-                messegeList.map((item)=>{
-                    return <Message username={item.username} messege={item.messege}></Message>
+                
+                messegeListState.map((item) => {
+                    const profilePic = `http://localhost:8000${item.profilePic}/`
+                    return <Message profilePic = {profilePic} username={item.username} messege={item.messege}></Message>
                 })
             }
-        </Box>
+            
+        </div>
         <form>
-        <Box id ="user_input" display="flex" flexDirection="row">
-            <TextField
-                variant="outlined"
-                size="small"
-                id="message_input"
-                label="message"
-                name="email"
-                fullWidth
-                onChange={handleChange}
-                margin="normal"
-            />
-            <Button
-                id= "submit_button"
-                type="submit"
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-            >
-            send
-            </Button>
-        </Box>
+            <div class="message-input flex flex-row">
+                <input className="input-message" name="email" placeholder="Message" onChange={handleChange} type="email" id="email" ></input>
+                <PaperAirplaneIcon onClick={handleSubmit} className="send-button" type="submit">Send</PaperAirplaneIcon>
+            </div>
         </form>
-    </Box>
+    </div>
 }

@@ -1,11 +1,9 @@
-import { Box } from '@material-ui/core'
 import React from 'react'
-import './style/Message.css'
 export default function Message(props){
-    console.log("sdfsdfsdfsdf");    
-    console.log(props)
-    return <Box>
+    return <div className="messege-super">
+        
+        <div className="profilePic" style={{"backgroundImage":`url(${props.profilePic})`}} > </div>
         <div className="username">{ props.username }</div>
         <div className="messege">{ props.messege }</div>
-    </Box>
+    </div>
 }

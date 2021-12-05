@@ -1,39 +1,12 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axios';
 import { useHistory } from 'react-router-dom';
-//MaterialUI
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card'
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(3),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-}));
-
+import { CSSTransition } from 'react-transition-group';
+import "./register.css"
 export default function SignUp() {
 	const history = useHistory();
+	const [inputField,setInputField] = useState(0);
+	
 	const initialFormData = Object.freeze({
 		email: '',
 		username: '',
@@ -50,7 +23,19 @@ export default function SignUp() {
 			[e.target.name]: e.target.value.trim(),
 		});
 	};
-
+	const handleStateChange=(e)=>{
+		if(inputField === 1){
+			handleSubmit(e);
+		}
+		else{
+			if(formData.email.trim() == ""){
+				console.log("empty field");
+			}
+			else{
+				setInputField(1);
+			}
+		}
+	}
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		axiosInstance
@@ -70,90 +55,56 @@ export default function SignUp() {
 			});
 	};
 
-	const classes = useStyles();
+
 
 	return (
-		<Container component="main" maxWidth="xs">
-			<CssBaseline />
-			<div className={classes.paper}>
-				<Avatar className={classes.avatar}></Avatar>
-				<Typography component="h1" variant="h5">
-					Sign up
-				</Typography>
-				<Card variant="outlined">#todo: Password cases</Card>
-				<form className={classes.form} noValidate>
-					<Grid container spacing={2}>
-						<Grid item xs={12}>
-							<TextField
-								variant="outlined"
-								required
-								fullWidth
-								id="email"
-								label="Email Address"
-								name="email"
-								autoComplete="email"
-								onChange={handleChange}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								variant="outlined"
-								required
-								fullWidth
-								id="username"
-								label="Username"
-								name="username"
-								autoComplete="username"
-								onChange={handleChange}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								variant="outlined"
-								required
-								fullWidth
-								name="password"
-								label="Password"
-								type="password"
-								id="password"
-								autoComplete="current-password"
-								onChange={handleChange}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								variant="outlined"
-								required
-								fullWidth
-								name="re_password"
-								label="Confirm Password"
-								type="password"
-								id="re_password"
-								autoComplete="current-password"
-								onChange={handleChange}
-							/>
-						</Grid>
+		<div class = "body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0 bg-gradient-to-r from-pink-400 to-purple-600"  style={{fontFamily:'Lato'}}>
+			<header className="max-w-lg mx-auto">
+				<h1 class = "text-4xl font-bold text-white text-center">
+				Channels
+				</h1>
+			</header>
+			<main className="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl overflow-hidden overflow-x-hidden">
+				<section>
+					<h3 className="font-bold text-2xl">Welcome to Channels</h3>
+					<p className="text-gray-600 pt-2">Create your account.</p>
+				</section>
+				<section className="mt-10">
+					<form className="flex flex-col">
+						<CSSTransition in={inputField===0} timeout={500} classNames="menu-primary" unmountOnExit>
+						<div className="menu">
+							<div className="mb-6 pt-3 rounded bg-gray-200">
+								<label className="block text-gray-700 text-sm font-bold mb-2 ml-3">Email</label>
+								<input name="email" onChange={handleChange} type="email" id="email" className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-300 px-3 pb-3"></input>
+							</div>
+							<div className="mb-6 pt-3 rounded bg-gray-200">
+								<label className="block text-gray-700 text-sm font-bold mb-2 ml-3">username</label>
+								<input name="username" onChange={handleChange} type="username" id="username" className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-300 px-3 pb-3"></input>
+							</div>
+						</div>
+						</CSSTransition>
 						
-					</Grid>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-						onClick={handleSubmit}
-					>
-						Sign Up
-					</Button>
-					<Grid container justify="flex-end">
-						<Grid item>
-							<Link href="/login" variant="body2">
-								Already have an account? Sign in
-							</Link>
-						</Grid>
-					</Grid>
-				</form>
+						<CSSTransition in={inputField===1} timeout={500} classNames="menu-secondary" unmountOnExit>
+						<div className="menu">
+							<div className="mb-6 pt-3 rounded bg-gray-200">
+								<label className="block text-gray-700 text-sm font-bold mb-2 ml-3">password</label>
+								<input name="password" onChange={handleChange} type="password" id="password" className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-300 px-3 pb-3"></input>
+							</div>
+							<div className="mb-6 pt-3 rounded bg-gray-200">
+								<label className="block text-gray-700 text-sm font-bold mb-2 ml-3">Confirm-password</label>
+								<input name="re_password" onChange={handleChange} type="password" id="re_password" className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-300 px-3 pb-3"></input>
+							</div>
+						</div>
+						</CSSTransition>
+						<button onClick={handleStateChange} className="self-end w-20 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200 focus:outline-none" type="button">
+						{inputField == 0 ? <i className="fas fa-angle-right"></i>:"Sign up"}
+						</button>
+					</form>
+				</section>
+			</main>
+			<div className="max-w-lg mx-auto text-center mt-12 mb-6 ">
+				<p className="text-white">Already have an account ? <a href="#" className="font-bold hover:underline">Sign In</a>.</p>
 			</div>
-		</Container>
+		</div>	
 	);
 }

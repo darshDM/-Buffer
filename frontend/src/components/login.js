@@ -2,38 +2,7 @@ import React, { useState } from 'react';
 import axiosInstance from '../axios';
 import { useHistory } from 'react-router-dom';
 //MaterialUI
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-}));
-
+import "../index.css";
 export default function Login(props) {
 	const {handleLoginFromApp} = props
 	const history = useHistory();
@@ -45,10 +14,12 @@ export default function Login(props) {
 	const [formData, updateFormData] = useState(initialFormData);
 
 	const handleChange = (e) => {
+		
 		updateFormData({
 			...formData,
 			[e.target.name]: e.target.value.trim(),
 		});
+		// console.log(formData.email);
 	};
 
 	const handleSubmit = (e) => {
@@ -67,68 +38,38 @@ export default function Login(props) {
 				handleLoginFromApp(true);
 			});
 	};
-	const classes = useStyles();
 	return (
-		<Container component="main" maxWidth="xs">
-			<CssBaseline />
-			<div className={classes.paper}>
-				<Avatar className={classes.avatar}></Avatar>
-				<Typography component="h1" variant="h5">
-					Sign in
-				</Typography>
-				<form className={classes.form} noValidate>
-					<TextField
-						variant="outlined"
-						margin="normal"
-						required
-						fullWidth
-						id="email"
-						label="Email Address"
-						name="email"
-						autoComplete="email"
-						autoFocus
-						onChange={handleChange}
-					/>
-					<TextField
-						variant="outlined"
-						margin="normal"
-						required
-						fullWidth
-						name="password"
-						label="Password"
-						type="password"
-						id="password"
-						autoComplete="current-password"
-						onChange={handleChange}
-					/>
-					<FormControlLabel
-						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
-					/>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-						onClick={handleSubmit}
-					>
-						Sign In
-					</Button>
-					<Grid container>
-						<Grid item xs>
-							<Link href="#" variant="body2">
-								Forgot password?
-							</Link>
-						</Grid>
-						<Grid item>
-							<Link href="#" variant="body2">
-								{"Don't have an account? Sign Up"}
-							</Link>
-						</Grid>
-					</Grid>
-				</form>
+		<div class = "overflow-hidden body-bg h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0 bg-gradient-to-r from-pink-400 to-purple-600"  style={{fontFamily:'Lato'}}>
+			<header class="max-w-lg mx-auto">
+				<h1 class = "text-4xl font-bold text-white text-center">
+				Channels
+				</h1>
+			</header>
+			<main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+				<section>
+					<h3 class="font-bold text-2xl">Welcome to Channels</h3>
+					<p class="text-gray-600 pt-2">Sign in to your account.</p>
+				</section>
+				<section class="mt-10">
+					<form class="flex flex-col">
+						<div class="mb-6 pt-3 rounded bg-gray-200">
+							<label class="block text-gray-700 text-sm font-bold mb-2 ml-3">Email</label>
+							<input name="email" onChange={handleChange} type="email" id="email" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-300 px-3 pb-3"></input>
+						</div>
+						<div class="mb-6 pt-3 rounded bg-gray-200">
+							<label class="block text-gray-700 text-sm font-bold mb-2 ml-3">Password</label>
+							<input name="password" onChange={handleChange} type="password" id="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-300 px-3 pb-3"></input>
+						</div>
+						<div class="flex justify-end">
+							<a href="#" class="text-sm text-purple-600 hover:text-purple-800 mb-6">Forgot password ?</a>
+						</div>
+						<button onClick={handleSubmit} class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Sign In</button>
+					</form>
+				</section>
+			</main>
+			<div class="max-w-lg mx-auto text-center mt-10 mb-6 ">
+				<p class="text-white">Don't have an account ? <a href="#" class="font-bold hover:underline">Sign up</a>.</p>
 			</div>
-		</Container>
+		</div>
 	);
 }

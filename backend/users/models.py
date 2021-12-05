@@ -3,10 +3,9 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
-
 class CustomAccountManager(BaseUserManager):
 
-    def create_superuser(self, email, user_name, password, **other_fields):
+    def create_superuser(self, email, username, password, **other_fields):
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
@@ -18,26 +17,31 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError(
                 'Superuser must be assigned to is_superuser=True.')
 
-        return self.create_user(email, user_name, password, **other_fields)
+        return self.create_user(email, username, password, **other_fields)
 
-    def create_user(self, email, user_name, password, **other_fields):
-
+    def create_user(self, email, username, password, **other_fields):
         if not email:
             raise ValueError(_('You must provide an email address'))
 
         email = self.normalize_email(email)
-        user = self.model(email=email, user_name=user_name, **other_fields)
+        user = self.model(email=email, username=username, **other_fields)
         user.set_password(password)
         user.save()
         return user
 
 
+def user_directory_path(instance, filename):
+  
+    # file will be uploaded to MEDIA_ROOT/profile-pic/user_<id>/<filename>
+    return 'profile-pic/user_{0}/{1}'.format(instance.id, filename)
+
+
 class MyUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(_('email address'), unique=True)
-    user_name = models.CharField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
+    username = models.CharField(max_length=150, unique=True)
     start_date = models.DateTimeField(default=timezone.now)
+    profilePic = models.ImageField(upload_to=user_directory_path,default="/1.png")
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
@@ -46,7 +50,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['user_name',]
+    REQUIRED_FIELDS = ['username',]
 
     def __str__(self):
-        return self.user_name
+        return self.username

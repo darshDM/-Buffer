@@ -4,7 +4,7 @@ from channels.db import database_sync_to_async
 class ChatConsumer(AsyncJsonWebsocketConsumer): 
 
     async def connect(self):
-        print(self.scope["user"].user_name)
+        print(self.scope["user"].username)
         await self.accept()
     
 
@@ -28,7 +28,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 {
                     "type": "chat.message",
                     "message": content["message"],
-                    "username": self.scope["user"].user_name,
+                    "username": self.scope["user"].username,
                     "server": content["server"],
                 }
             )

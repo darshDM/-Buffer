@@ -4,8 +4,8 @@ from django.contrib.auth.models import Group
 from django.db.models.fields import CharField
 from django.db.models.fields.related import ManyToManyField
 from django.urls import reverse
-User = get_user_model()
 
+User = get_user_model()
 
 class QueryThread(models.Model):
     room = models.ForeignKey(Group,null=False,blank=False,on_delete=models.CASCADE)
@@ -19,7 +19,6 @@ class QueryThread(models.Model):
 
     def __str__(self):
         return self.title 
-
 
 class Message(models.Model):
     queryThread = models.ForeignKey(QueryThread,on_delete=models.CASCADE)
@@ -35,4 +34,5 @@ def get_absolute_url(self):
     return reverse('join-room',args=[self.name])
 
 Group.add_to_class('get_absolute_url',get_absolute_url)
+Group.add_to_class('server_thumbnail',models.ImageField(null=True,upload_to='server-image'))
 User.add_to_class('online',models.BooleanField(default=False))
