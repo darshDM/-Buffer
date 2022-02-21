@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import axiosInstance from '../axios';
+import axiosInstance from '../helper/axios';
 import { useHistory } from 'react-router-dom';
-//MaterialUI
-import "../index.css";
 export default function Login(props) {
 	const {handleLoginFromApp} = props
 	const history = useHistory();
@@ -10,16 +8,12 @@ export default function Login(props) {
 		email: '',
 		password: '',
 	});
-
 	const [formData, updateFormData] = useState(initialFormData);
-
 	const handleChange = (e) => {
-		
 		updateFormData({
 			...formData,
 			[e.target.name]: e.target.value.trim(),
 		});
-		// console.log(formData.email);
 	};
 
 	const handleSubmit = (e) => {

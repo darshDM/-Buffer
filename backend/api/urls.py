@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GetServers, MyServerList, GetThreads,CreateServerView, GetThreadMesseges
+from .views import CreateThreadView,GetServers, MyServerList, GetThreads,CreateServerView, GetThreadMesseges
 
 
 app_name="api"
@@ -10,4 +10,5 @@ urlpatterns = [
     path("get-threads/<str:server>",GetThreads.as_view()),
     path("create-server",CreateServerView.as_view()),
     path("get-thread-messages/<int:id>",GetThreadMesseges.as_view()),
+    path("create-thread",CreateThreadView.as_view()),
 ]

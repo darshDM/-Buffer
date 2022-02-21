@@ -1,13 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
 @import-normalize;
 @tailwind base;
 @tailwind components;
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+.gutter{
+  background-color:#212122;
+  background-repeat: no-repeat;
+  background-position:50%;
+}
+.gutter.gutter-horizontal{
+  cursor:col-resize;
 }
 
 @layer components {
@@ -28,9 +37,11 @@
     transition-all duration-100 scale-0 origin-left;
   }
   .main-body{
-    @apply w-3/4 bg-gray-700 flex text-purple-200 flex-col place-content-end;
+    @apply w-full h-full bg-gray-700 flex text-purple-200 flex-col place-content-end;
   }
-
+  .create-thread-body{
+    @apply w-3/4 bg-gray-700 flex text-purple-200 flex-col;
+  }
   .message-list{
     @apply ml-3 mb-3;
   }
@@ -53,14 +64,9 @@
      text-white font-bold text-xl text-left 
     border-b-2 border-gray-900 shadow-2xl;
   }
-
   .thread-item{
     @apply mx-2 my-1 px-2 py-2 text-gray-400 text-left
     hover:bg-gray-700 font-semibold rounded-sm ;
-  }
-
-  .messege-super{
-
   }
   .profilePic{
     @apply w-8 h-8 bg-contain rounded-3xl;

@@ -62,5 +62,22 @@ class CreateServerView(APIView):
         print(server_thumbnail)
         data = []
         grp = Group.objects.create(name=name,server_thumbnail=server_thumbnail)
+        data = [ServerListSerializer(grp).data]
         self.request.user.groups.add(grp)
-        return JsonResponse(data=data,safe=False,status=status.HTTP_200_OK)
+        return JsonResponse(data=data,safe=False,status=status.HTTP_201_CREATED)
+
+class CreateThreadView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self,request,*args,**kwargs):
+        room = Group.objects.get(id=self.request.data['room'])
+        # print(room)
+        title = self.request.data["title"]
+        query = self.request.data["query"]
+        code = self.request.data["code"]
+
+        thread = QueryThread.objects.create(room=room,title=title,query=query,code=code)
+        thread.save()
+        # data = []
+        data = [ThreadSerializer(thread).data]
+        return JsonResponse(data=data,safe=False,status=status.HTTP_201_CREATED)
+

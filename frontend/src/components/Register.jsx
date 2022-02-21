@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import axiosInstance from '../axios';
+import axiosInstance from '../helper/axios';
 import { useHistory } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
-import "./register.css"
-export default function SignUp() {
+import "../styles/register.css";
+export default function Register() {
 	const history = useHistory();
 	const [inputField,setInputField] = useState(0);
 	
@@ -19,7 +19,6 @@ export default function SignUp() {
 	const handleChange = (e) => {
 		updateFormData({
 			...formData,
-			// Trimming any whitespace
 			[e.target.name]: e.target.value.trim(),
 		});
 	};
@@ -56,7 +55,7 @@ export default function SignUp() {
 	};
 
 
-
+	
 	return (
 		<div class = "body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0 bg-gradient-to-r from-pink-400 to-purple-600"  style={{fontFamily:'Lato'}}>
 			<header className="max-w-lg mx-auto">
