@@ -17,9 +17,9 @@ Redis is used as channel Layer (In-memory database)
 
 - [x] Basic Authentication
 - [x] Create Channel
-- [ ] Create Thread
+- [x] Create Thread
 - [ ] Join Channel
-- [ ] Better UI
+- [x] Better UI
 - [ ] Social Authentications
 - [ ] Async Messeging
 - [ ] Notifications
